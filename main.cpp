@@ -3,7 +3,9 @@
 #include<string>
 #include <cstdlib>   // rand and srand
 #include <ctime>     // For the time function
+
 using namespace std;
+
 void playPVP();
 void buildPlayer(string &, int&, int&);
 void displayPVPActive(string name, int mag, int maxMag, int stam, int maxStam, int health);
@@ -15,6 +17,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 bool calcCost(int& mag, int& stam, int cost);
 bool calcCostOne(int& point, int cost);
 void levelUp(int& magM, int & stamM);
+
 int main() {
 	int choice;
 	string throwAway;
@@ -28,6 +31,7 @@ int main() {
 			system("cls");
 			cin.ignore();
 		} while (choice < 1 && choice > 4);
+
 		switch (choice) {
 		case 1:
 			do {
@@ -72,6 +76,7 @@ void buildPlayer(string &name, int& mag, int& stam) {
 		cout << name << ": 3 points in Mana or Stamina?";
 		cout << "\n1. Magic \n2. Stamina \n";
 		cin >> choice;
+		cout << endl;
 	}while (choice != 1 && choice != 2);
 	if (choice == 1) {
 		mag = 3;
@@ -81,7 +86,7 @@ void buildPlayer(string &name, int& mag, int& stam) {
 		stam = 3;
 		mag = 0;
 	}
-	
+
 }
 
 void playPVP(){
@@ -113,7 +118,7 @@ void playPVP(){
 	system("cls");
 	cout << "Loading..." << endl;
 	fillMoveList(moveList);
-	
+
 	//Playing Game
 	while (health1 > 0 && health2 > 0) {
 		fillMoveChoice(moveList, moveChoice);
@@ -332,7 +337,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 
 	case 5: //Flee |3pts| Opponent Losses 3 Stamina
 		if (calcCost(magP, stamP, 3)) {
-			
+
 			cout << "You Flee" << endl;
 			stamE -= 3;
 		}
@@ -394,7 +399,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 11: //Posion Bomb |8pts| Throw A Bomb That Causes 15 Damage 
+	case 11: //Posion Bomb |8pts| Throw A Bomb That Causes 15 Damage
 		if (calcCost(magP, stamP, 8)) {
 			cout << "You Throw A Posion Bomb" << endl;
 			healthE -= 15;
@@ -424,7 +429,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 14: //My Mango |2pts| Throw A Mango, It Blows Up, Cause 4 Damage 
+	case 14: //My Mango |2pts| Throw A Mango, It Blows Up, Cause 4 Damage
 		if (calcCost(magP, stamP, 2)) {
 			cout << "My Mango Is To Blow Up" << endl;
 			healthE -= 4;
@@ -454,7 +459,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 17: //Leg Sweep |3pts| Trip Opponent, Causes 4 Damage 
+	case 17: //Leg Sweep |3pts| Trip Opponent, Causes 4 Damage
 		if (calcCost(magP, stamP, 3)) {
 			cout << "Bigger They Are, The Harder They Fall" << endl;
 			healthE -= 4;
@@ -464,7 +469,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 18: //Throw Rock |1pts| Causes 3 Damage 
+	case 18: //Throw Rock |1pts| Causes 3 Damage
 		if (calcCost(magP, stamP, 1)) {
 			cout << "The Rock Hits Your Opponent In The Face" << endl;
 			healthE -= 3;
@@ -474,7 +479,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 19: //Hot Hot |2pts| Hey, We Got It, Cause 3 Damage 
+	case 19: //Hot Hot |2pts| Hey, We Got It, Cause 3 Damage
 		if (calcCost(magP, stamP, 2)) {
 			cout << "It Was Just To Hot Hot" << endl;
 			healthE -= 3;
@@ -484,7 +489,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 20: //Power Of Zeus |20pts| With ALL Your Power You Strike, Cause 50 Damage 
+	case 20: //Power Of Zeus |20pts| With ALL Your Power You Strike, Cause 50 Damage
 		if (calcCost(magP, stamP, 20)) {
 			cout << "That Is Going To Hurt..." << endl;
 			healthE -= 50;
@@ -494,7 +499,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 21: //Leach Spell |5pts Mana| Causes 5 Damage & Heals Player 5 HP 
+	case 21: //Leach Spell |5pts Mana| Causes 5 Damage & Heals Player 5 HP
 		if (calcCostOne(magP, 5)) {
 			cout << "You Consume Some Of Your Opponets Power" << endl;
 			healthE -= 5;
@@ -505,7 +510,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 22: //Call of the Lizard King |10pts Mana| Zuckerberg Takes All Of The Opponet's Resources For 1 Round  
+	case 22: //Call of the Lizard King |10pts Mana| Zuckerberg Takes All Of The Opponet's Resources For 1 Round
 		if (calcCostOne(magP, 10)) {
 			cout << "You Know A Little To Much Information" << endl;
 			magE = 0;
@@ -516,7 +521,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 23: //Lightning Bolt |3pts Mana| A Simple Yet Effective Spell, Causes 6 Damage  
+	case 23: //Lightning Bolt |3pts Mana| A Simple Yet Effective Spell, Causes 6 Damage
 		if (calcCostOne(magP, 3)) {
 			cout << "You Strike!" << endl;
 			healthE -= 6;
@@ -526,7 +531,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 24: //Fire Ball |2pts Mana| A Simple Yet Effective Spell, Causes 4 
+	case 24: //Fire Ball |2pts Mana| A Simple Yet Effective Spell, Causes 4
 		if (calcCostOne(magP, 2)) {
 			cout << "" << endl;
 		}
@@ -535,7 +540,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 25: //Awaken The Dead |5pts Mana| Summon The Undead, Cause 10 Damage  
+	case 25: //Awaken The Dead |5pts Mana| Summon The Undead, Cause 10 Damage
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -544,7 +549,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 26: //Regeneration Spell |6pts Mana| Heals Player 25 HP 
+	case 26: //Regeneration Spell |6pts Mana| Heals Player 25 HP
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -553,7 +558,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 27: //Gods Blessing |5pts Mana| An Answered Prayer, Heals Player 50 HP;  
+	case 27: //Gods Blessing |5pts Mana| An Answered Prayer, Heals Player 50 HP;
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -562,7 +567,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 28: //Body Swap |8pts Mana| Switch Health With Other Player;  
+	case 28: //Body Swap |8pts Mana| Switch Health With Other Player;
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -571,7 +576,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 29: //Magic Missile |1pts Mana| Causes 3 Damage  
+	case 29: //Magic Missile |1pts Mana| Causes 3 Damage
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -580,7 +585,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 30: //Health Steal |8pts Mana| Causes 10 Damage & Heals 15 HP  
+	case 30: //Health Steal |8pts Mana| Causes 10 Damage & Heals 15 HP
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -589,7 +594,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 31: // |pts Mana|  
+	case 31: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -598,7 +603,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 32: // |pts Mana|  
+	case 32: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -607,7 +612,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 33: // |pts Mana|  
+	case 33: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -616,7 +621,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 34: // |pts Mana|  
+	case 34: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -625,7 +630,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 35: // |pts Mana|  
+	case 35: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -634,7 +639,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 36: // |pts Mana|  
+	case 36: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -643,7 +648,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 37: // |pts Mana|  
+	case 37: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -652,7 +657,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 38: // |pts Mana|  
+	case 38: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -661,7 +666,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 39: // |pts Mana|  
+	case 39: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -670,7 +675,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		}
 		break;
 
-	case 40: // |pts Mana|  
+	case 40: // |pts Mana|
 		if (calcCostOne(magP, 5)) {
 			cout << "" << endl;
 		}
@@ -683,17 +688,16 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 		cout << "Somthing went wrong calculating move" << endl;
 		cin.ignore();
 		cin.get();
-		
 	}
-	if (healthP > 100) {
+
+	if (healthP > 100)
 		healthP = 100;
-	}
-	if (magE < 0) {
+
+	if (magE < 0)
 		magE = 0;
-	}
-	if (stamE < 0) {
+
+	if (stamE < 0)
 		stamE = 0;
-	}
 }
 
 //calculates where the game will take points from for the player
@@ -759,7 +763,7 @@ int movePick(string moveList[][2], string moveChoice[], int size) {
 	while ((pick > size || pick < 1) && pick != -1) {
 		cout << "Not a valid move, try again: ";
 		cin >> pick;
-		
+
 	}
 	holdPick = pick - 1;
 	if (pick != -1) {
@@ -803,13 +807,13 @@ void levelUp(int& magM, int& stamM) {
 
 // Everything Under Displays Info For Players on screen
 void displayPVPActive(string name, int mag, int maxMag, int stam, int maxStam, int health){
-	cout << name << endl
+	cout << "\033[1m\033[32m" << name << "\033[0m" << endl
 		<< "Mana Points: " << mag << "/" << maxMag << endl
 		<< "Stamina Points: " << stam << "/" << maxStam << endl
 		<< "Health: " << health << "/" << 100;
 	cout << "|";
 	//Displays Health bar
-	for (int i = 0; i < 10; i++) { 
+	for (int i = 0; i < 10; i++) {
 		if (i < health / 10) {
 			cout << (char)219u;
 		}
@@ -827,16 +831,18 @@ void displayPVPActive(string name, int mag, int maxMag, int stam, int maxStam, i
 		else {
 			cout << " ";
 		}
-		
+
 	}
 	cout << "|" << endl;
 }
 void displayPVPInactive(string name, int mag, int maxMag, int stam, int maxStam, int health) {
-	cout << "\t\t\t" << name << endl
+
+	cout << "\t\t\t" << "\033[35m" << name << "\033[0m" << endl
 		<< "\t\t\tMana Points: " << mag << "/" << maxMag << endl
 		<< "\t\t\tStamina Points: " << stam << "/" << maxStam << endl
 		<< "\t\t\tHealth: " << health << "/" << 100;
 	cout << "|";
+
 	//Displays Health bar
 	for (int i = 0; i < 10; i++) {
 		if (i < health / 10) {
