@@ -1,8 +1,10 @@
 #include <iostream>
 #include <iomanip>
-#include<string>
+#include <string>    //stoi
 #include <cstdlib>   // rand and srand
 #include <ctime>     // For the time function
+#include <fstream>   //reading attack files
+#include <vector>    //file Attack array
 
 using namespace std;
 
@@ -17,6 +19,7 @@ void calcMove(int pick, int& healthP, int& magP, int& stamP, int& healthE, int& 
 bool calcCost(int& mag, int& stam, int cost);
 bool calcCostOne(int& point, int cost);
 void levelUp(int& magM, int & stamM);
+void readAttackFile(vector<string>& attacksArray, string fileName);
 
 int main() {
 	int choice;
@@ -211,75 +214,50 @@ void playPVP(){
 
 //Fills moveList with all moves in the game and there info;
 void fillMoveList(string moveList[][2]) {
-	for (int i = 0; i < 61; i++) {
+
+    vector<string> normal_Attacks;
+    vector<string> wizard_Attacks;
+    vector<string> warrior_Attacks;
+    readAttackFile(normal_Attacks, "./Attacks/Normal_Attacks.dat");
+    readAttackFile(wizard_Attacks, "./Attacks/Wizard_Attacks.dat");
+    readAttackFile(warrior_Attacks, "./Attacks/Warrior_Attacks.dat");
+
+	for (int i = 0; i <= 60; i++) {
 		moveList[i][0] = to_string(i);
 	}
-	//a list of "Normal" moves for everyone
-	moveList[0][1] = "Kick |3pts| Causes 5 Damage";
-	moveList[1][1] = "Flick |1pt| Causes 2 Damage";
-	moveList[2][1] = "Slap |2pts| Causes 3 Damage";
-	moveList[3][1] = "Punch |5pts| Causes 8 Damage";
-	moveList[4][1] = "Health Potion |4pts| Heals Player 10 HP";
-	moveList[5][1] = "Flee |3pts| Opponent Losses 3 Stamina";
-	moveList[6][1] = "Struggle |1pt| Cause 3 Damage & Causes 1 Damage To Yourself";
-	moveList[7][1] = "Gauze |2pt| Heals Player 5 HP";
-	moveList[8][1] = "Strength |1pt| Gain 5 Stamina For This Turn";
-	moveList[9][1] = "Wisdom |1pt| Gain 5 Mana For This Turn";
-	moveList[10][1] = "Throw Weapon |ALLpts| Throw Your Weapon, Cause 10 Damage And End Turn";
-	moveList[11][1] = "Posion Bomb |8pts| Throw a Bomb That Causes 15 Damage";
-	moveList[12][1] = "Joker |1Pts| Throw Card At Opponent, Causes 2 Damage";
-	moveList[13][1] = "Iocaine powder |3pts| A Colorless, Odorless, And Deadly Poison From Australia, Cause 5 Damage";
-	moveList[14][1] = "My Mango |2pts| Throw a Mango, It Blows Up, Cause 4 Damage";
-	moveList[15][1] = "Bite |2pts| Causes 4 Damage";
-	moveList[16][1] = "Cave Man |4pts| Throw A Torch, Causes 6 Damage";
-	moveList[17][1] = "Leg Sweep |3pts| Trip Opponent, Causes 4 Damage";
-	moveList[18][1] = "Throw Rock |1pts| Causes 3 Damage";
-	moveList[19][1] = "Hot Hot |2pts| Hey, We Got It, Cause 3 Damage";
-	moveList[20][1] = "Power Of Zeus |20pts| With All Your Power You Strike, Cause 50 Damage";
-	//A list of moves for Wizards
-	moveList[21][1] = "Leach Spell |5pts Mana| Causes 5 Damage & Heals Player 5 HP";
-	moveList[22][1] = "Call of the Lizard King |10pts Mana| Zuckerberg Takes All Of The Opponent's Resources For 1 Round";
-	moveList[23][1] = "Lightning Bolt |3pts Mana| A simple Yet Effective Spell, Causes 6 Damage";
-	moveList[24][1] = "Fire Ball |2pts Mana| A Simple Yet Effective Spell, Causes 4 Damage";
-	moveList[25][1] = "Awaken The Dead |5pts Mana| Summon The Undead, Causes 10 Damage";
-	moveList[26][1] = "Regeneration Spell |6pts Mana| Heals PLayer 25 HP";
-	moveList[27][1] = "Gods Blessing |5pts Mana| An Answered Prayer, Heals Player 50 HP";
-	moveList[28][1] = "Body Swap |8pts Mana| Switch Health With Other Player";
-	moveList[29][1] = "Magic Missile |1pts Mana| Causes 3 Damage";
-	moveList[30][1] = "Health Steal |8pts Mana| Causes 10 Damage & Heals Player 15 HP";
-	moveList[31][1] = "Summon Meteor |4pts Mana| Causes 8 Damage";
-	moveList[32][1] = "Mimicry |3pts Mana| Use Opponets Stats For 1 Round";
-	moveList[33][1] = "Conjure Familiar |5pts Mana| Conjures a Familiar That Causes 7 Damage And Heals 3HP";
-	moveList[34][1] = "Magic Armor |5pts Mana| Heals Player 20 HP";
-	moveList[35][1] = "Voodoo |2pts Mana| Brings Oppnents Health To Same Level";
-	moveList[36][1] = "The Call Of Gaia |3pts Mana| Causes 3 Damage And Heals 7HP";
-	moveList[37][1] = "Mana Drain |7pts Mana| Drain Opponets Mana & Gives It To You";
-	moveList[38][1] = "Power Drain |7pts Mana| Drain Opponents Stamina & Gives it to you";
-	moveList[39][1] = "Punxsutawney Phil |3pts Mana| 6 more Weeks of Winter, Causes 6 Damage";
-	moveList[40][1] = "Blood Thirst |10pts Mana| Halves Opponents Health & Doubles Player Health";
-	//A list of attack for Warriors
-	moveList[41][1] = "Slash |1pt Stamina| Causes 4 Damage";
-	moveList[42][1] = "Stab |2pts Stamina| Causes 5 Damage";
-	moveList[43][1] = "Arrow To the Knee |5pts Stamina| Causes 5 Damage & Causes Opponent To Lose All Stamina";
-	moveList[44][1] = "Headbutt |6pts Stamina| Causes 20 Damage & Take 10 Damage";
-	moveList[45][1] = "Charge |3pts Stamina| Charge The Enemy and Cause 8 Damage";
-	moveList[46][1] = "Shield Bash |3pts Stamina| Causes 6 Damage";
-	moveList[47][1] = "Armor Up |8pts Stamina| Heals Player 5 HP";
-	moveList[48][1] = "Thrust Kick |5pts Stamina| Cause 15 Damage";
-	moveList[49][1] = "Bear Trap |7pts Stamina| Causes 20 Damage";
-	moveList[50][1] = "Dog Call |4pts Stamina| Call A Pack of Wolves, Causes 10 Damage";
-	moveList[51][1] = "Shoot Arrow |1pt Stamina| Causes 3 Damage";
-	moveList[52][1] = "Fog Horn |10pts Stamina| Call For Backup, Causes 30 Damage";
-	moveList[53][1] = "Strangle |4pts Stamina| Cause 20% Damage From Remaining Health";
-	moveList[54][1] = "Fog Of War |8pts Stamina| Throw Smoke Bomb, Opponent Loses 50% of there Resources";
-	moveList[55][1] = "Ninja Star |2pts Stamina| Causes 5 Damage";
-	moveList[56][1] = "Throw Javelin |5pts Stamina| Pierce Chest With Javelin, Cause 18 Damage";
-	moveList[57][1] = "Throw Opponent |8pts Stamina| Pick Up And Throw Opponent, Causes 25 Damage";
-	moveList[58][1] = "Head Smash |7pts Stamina| Smash The Head Of Your Enemy With Your Bear Hands, Causes 15 Damage";
-	moveList[59][1] = "Break Magic|6pts Stamina| Break Opponents Staff In Half, They Lose All Mana For 1 Round";
-	moveList[60][1] = "Tackle |10pts Stamina| Cause 25 Damage And Opponent Loses 50% Of There Resources";
+	int movecounter = 0;
+	//a list of "Normal" moves for everyone [0-20][1]
+	for(int i = 0; i < normal_Attacks.size(); i++){
+        moveList[movecounter][1] = normal_Attacks[i];
+        movecounter++;
+	}
 
+	//A list of moves for Wizards [21-40][1]
+	for(int i = 0; i < wizard_Attacks.size(); i++){
+	    moveList[movecounter][1] = wizard_Attacks[i];
+	    movecounter++;
+	}
+	//A list of attack for Warriors [41-60][1]
+	for(int i = 0; i < warrior_Attacks.size(); i++){
+        moveList[movecounter][1] = warrior_Attacks[i];
+        movecounter++;
+	}
 
+}
+
+//File system for generating attacks
+void readAttackFile(vector<string>& attacksArray, string fileName){
+    ifstream cardFile;
+    cardFile.open(fileName);
+    if(!cardFile.is_open()){
+        cout << endl << "An error occurred opening " << fileName << endl;
+        exit(EXIT_FAILURE);
+    }
+    string line;
+    while(getline(cardFile, line)){
+        attacksArray.push_back(line);
+    }
+    cardFile.close();
 }
 
 //Calculates Moves and There posibility
