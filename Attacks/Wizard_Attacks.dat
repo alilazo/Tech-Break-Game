@@ -1,20 +1,40 @@
 Leach Spell |5pts Mana| Causes 5 Damage & Heals Player 5 HP
+0 0 5 0 0 -5 5
 Call of the Lizard King |10pts Mana| Zuckerberg Takes All Of The Opponent's Resources For 1 Round
+10 10 0 0 0 0 10
 Lightning Bolt |3pts Mana| A simple Yet Effective Spell, Causes 6 Damage
+0 0 6 0 0 0 3
 Fire Ball |2pts Mana| A Simple Yet Effective Spell, Causes 4 Damage
+0 0 4 0 0 0 2
 Awaken The Dead |5pts Mana| Summon The Undead, Causes 10 Damage
+0 0 10 0 0 0 5
 Regeneration Spell |6pts Mana| Heals PLayer 25 HP
+0 0 0 0 0 -25 6
 Gods Blessing |5pts Mana| An Answered Prayer, Heals Player 50 HP
-Body Swap |8pts Mana| Switch Health With Other Player
+0 0 0 0 0 -50 5
+Body Swap |8pts Mana| Causes 15 Damage & Heals Player 10 HP
+0 0 15 0 0 -10 8
 Magic Missile |1pts Mana| Causes 3 Damage
+0 0 3 0 0 0 1
 Health Steal |8pts Mana| Causes 10 Damage & Heals Player 15 HP
+0 0 10 0 0 -15 8
 Summon Meteor |4pts Mana| Causes 8 Damage
-Mimicry |3pts Mana| Use Opponets Stats For 1 Round
-Conjure Familiar |5pts Mana| Conjures a Familiar That Causes 7 Damage And Heals 3HP
+0 0 8 0 0 0 4
+Mimicry |3pts Mana| Gain 5 Stamina & 5 Mana for 1 round
+0 0 0 -5 -5 0 3
+Conjure Familiar |3pts Mana| Conjures a Familiar That Causes 10 Damage And Heals 5HP
+0 0 7 0 0 -5 3
 Magic Armor |5pts Mana| Heals Player 20 HP
-Voodoo |2pts Mana| Brings Oppnents Health To Same Level
-The Call Of Gaia |3pts Mana| Causes 3 Damage And Heals 7HP
-Mana Drain |7pts Mana| Drain Opponets Mana & Gives It To You
-Power Drain |7pts Mana| Drain Opponents Stamina & Gives it to you
+0 0 0 0 0 -20 5
+Voodoo |2pts Mana| Causes 5 Damage
+0 0 5 0 0 0 2
+The Call Of Gaia |3pts Mana| Causes 5 Damage And Heals 10HP
+0 0 3 0 0 -10 3
+Mana Drain |7pts Mana| Drain Opponets Mana By 5 & Gives You Double
+5 0 0 -10 0 0 7
+Power Drain |7pts Mana| Drain Opponents Stamina By 5 & Gives You Double
+0 5 0 0 -10 0 7
 Punxsutawney Phil |3pts Mana| 6 more Weeks of Winter, Causes 6 Damage
-Blood Thirst |10pts Mana| Halves Opponents Health & Doubles Player Health
+0 0 6 0 0 0 3
+Blood Thirst |10pts Mana| Causes 20 Damage & Heals 20HP
+0 0 20 0 0 -20 10

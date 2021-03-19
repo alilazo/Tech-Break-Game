@@ -1,20 +1,40 @@
 Slash |1pt Stamina| Causes 4 Damage
+0 0 4 0 0 0 1
 Stab |2pts Stamina| Causes 5 Damage
+0 0 5 0 0 0 2
 Arrow To the Knee |5pts Stamina| Causes 5 Damage & Causes Opponent To Lose All Stamina
+0 10 5 0 0 0 5
 Headbutt |6pts Stamina| Causes 20 Damage & Take 10 Damage
+0 0 20 0 0 10 9
 Charge |3pts Stamina| Charge The Enemy and Cause 8 Damage
+0 0 4 0 0 0 3
 Shield Bash |3pts Stamina| Causes 6 Damage
+0 0 6 0 0 0 3
 Armor Up |8pts Stamina| Heals Player 5 HP
+0 0 0 0 0 -5 8
 Thrust Kick |5pts Stamina| Cause 15 Damage
+0 0 15 0 0 0 5
 Bear Trap |7pts Stamina| Causes 20 Damage
+0 0 20 0 0 0 7
 Dog Call |4pts Stamina| Call A Pack of Wolves, Causes 10 Damage
+0 0 10 0 0 0 4
 Shoot Arrow |1pt Stamina| Causes 3 Damage
+0 0 3 0 0 0 1
 Fog Horn |10pts Stamina| Call For Backup, Causes 30 Damage
-Strangle |4pts Stamina| Cause 20% Damage From Remaining Health
-Fog Of War |8pts Stamina| Throw Smoke Bomb, Opponent Loses 50% of there Resources
+0 0 30 0 0 0 10
+Strangle |1pts Stamina| Cause 3 Damage
+0 0 3 0 0 0 1
+Fog Of War |8pts Stamina| Throw Smoke Bomb, Opponent Loses 5 Of Each Resource
+5 5 0 0 0 0 8
 Ninja Star |2pts Stamina| Causes 5 Damage
+0 0 5 0 0 0 2
 Throw Javelin |5pts Stamina| Pierce Chest With Javelin, Cause 18 Damage
+0 0 18 0 0 0 5
 Throw Opponent |8pts Stamina| Pick Up And Throw Opponent, Causes 25 Damage
+0 0 25 0 0 0 8
 Head Smash |7pts Stamina| Smash The Head Of Your Enemy With Your Bear Hands, Causes 15 Damage
+0 0 15 0 0 0 7
 Break Magic|6pts Stamina| Break Opponents Staff In Half, They Lose All Mana For 1 Round
-Tackle |10pts Stamina| Cause 25 Damage And Opponent Loses 50% Of There Resources
+10 0 0 0 0 0 6
+Tackle |10pts Stamina| Cause 20 Damage And Opponent Loses 5 Of Each Resources
+5 5 0 0 0 0 10
