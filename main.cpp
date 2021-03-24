@@ -5,23 +5,16 @@
 #include <ctime>     // For the time function
 #include <fstream>   //reading attack files
 #include <vector>    //file Attack array
+
+#include "Player.cpp"
+
 using namespace std;
-
-struct Player {
-	string name;
-	int man;
-	int stam;
-	int maxMan;
-	int maxStam;
-	int health;
-
-};
 
 // Use This When Adding Attack Codes For The Cards
 struct Card {
 	string des; //Describes the move, shows up on player screen
 	// When using negitive Symble for anything bellow will add to the stats, no negitive will subract;
-	int dMan; 
+	int dMan;
 	int dStam;
 	int dHealth;
 	int aMan;
@@ -32,7 +25,6 @@ struct Card {
 };
 
 void playPVP();
-void buildPlayer(Player & p);
 void displayPVP(Player pf, Player pd);
 void fillMoveList(Card deck[]);
 void fillHand(Card deck[], Card hand[]);
@@ -96,26 +88,6 @@ int main() {
 }
 
 //Lets player put in username and pick starting class
-void buildPlayer(Player & p) {
-	int choice;
-	do {
-		cout << "Enter Username For " << p.name << ": ";
-		cin >> p.name;
-		cout << p.name << ": 3 points in Mana or Stamina?";
-		cout << "\n1. Magic \n2. Stamina \n";
-		cin >> choice;
-		cout << endl;
-	} while (choice != 1 && choice != 2);
-	if (choice == 1) {
-		p.man = 3;
-		p.maxMan = 3;
-	}
-	else {
-		p.stam = 3;
-		p.maxStam = 3;
-	}
-
-}
 
 void playPVP() {
 	//Making Var's
@@ -129,8 +101,8 @@ void playPVP() {
 	Card deck[61];
 
 	//Bulding Player 1 & 2
-	buildPlayer(p1);
-	buildPlayer(p2);
+	p1.buildPlayer();
+	p2.buildPlayer();
 	cout << "Hit Enter To continue:";
 	cin.ignore();
 	cin.get();
@@ -242,9 +214,9 @@ void fillMoveList(Card deck[]) {
 		getline(normalDeck, deck[movecounter].des);
 		normalDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'N';
-		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		cin.ignore();
-		cin.get();
+		//cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
+		//cin.ignore();
+		//cin.get();
 		normalDeck.get();
 		movecounter++;
 	}
@@ -257,9 +229,9 @@ void fillMoveList(Card deck[]) {
 		getline(wizardDeck, deck[movecounter].des);
 		wizardDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'M';
-		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		cin.ignore();
-		cin.get();
+		//cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
+		//cin.ignore();
+		//cin.get();
 		wizardDeck.get();
 		movecounter++;
 	}
@@ -273,15 +245,15 @@ void fillMoveList(Card deck[]) {
 		getline(warriorDeck, deck[movecounter].des);
 		warriorDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'S';
-		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		cin.ignore();
-		cin.get();
+		//cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
+		//cin.ignore();
+		//cin.get();
 		warriorDeck.get();
 		movecounter++;
 	}
 	warriorDeck.close();
-	
-	
+
+
 
 }
 
@@ -352,7 +324,7 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 
 		}
 	}
-	
+
 
 
 	if (pa.health > 100) {
@@ -366,7 +338,7 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 	if (pd.stam < 0) {
 		pd.stam = 0;
 	}
-		
+
 }
 
 //calculates where the game will take points from for the player
