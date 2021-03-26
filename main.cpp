@@ -208,9 +208,7 @@ void fillMoveList(Card deck[]) {
 		getline(normalDeck, deck[movecounter].des);
 		normalDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'N';
-		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		cin.ignore();
-		cin.get();
+		
 		normalDeck.get();
 		movecounter++;
 	}
@@ -223,9 +221,7 @@ void fillMoveList(Card deck[]) {
 		getline(wizardDeck, deck[movecounter].des);
 		wizardDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'M';
-		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		cin.ignore();
-		cin.get();
+		
 		wizardDeck.get();
 		movecounter++;
 	}
@@ -239,9 +235,7 @@ void fillMoveList(Card deck[]) {
 		getline(warriorDeck, deck[movecounter].des);
 		warriorDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'S';
-		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		cin.ignore();
-		cin.get();
+		
 		warriorDeck.get();
 		movecounter++;
 	}
