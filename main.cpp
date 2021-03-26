@@ -6,33 +6,29 @@
 #include <fstream>   //reading attack files
 #include <vector>    //file Attack array
 
-#include "Player.cpp"
+#include "Player.h"
 
 using namespace std;
 
 // Use This When Adding Attack Codes For The Cards
 struct Card {
-	string des; //Describes the move, shows up on player screen
+	string des = {}; //Describes the move, shows up on player screen
 	// When using negitive Symble for anything bellow will add to the stats, no negitive will subract;
-	int dMan;
-	int dStam;
-	int dHealth;
-	int aMan;
-	int aStam;
-	int aHealth;
-	int cost;
-	char type;
+	int dMan = 0;
+	int dStam = 0;
+	int dHealth = 0;
+	int aMan = 0;
+	int aStam = 0;
+	int aHealth = 0;
+	int cost = 0;
+	char type = 0;
 };
 
 void playPVP();
-void displayPVP(Player pf, Player pd);
 void fillMoveList(Card deck[]);
 void fillHand(Card deck[], Card hand[]);
 Card cardPick(Card hand[], int size);
-void calcMove(Card pick, Player& pa, Player& pd);
-bool calcCost(int& mag, int& stam, int cost);
-bool calcCostOne(int& point, int cost);
-void levelUp(int& magM, int& stamM);
+void calcMove(Card pick, Player & pa, Player & pd);
 void readAttackFile(vector<string>& attacksArray, string fileName);
 
 
@@ -92,8 +88,8 @@ int main() {
 void playPVP() {
 	//Making Var's
 	system("cls");
-	Player p1 = { "Player 1", 0, 0, 0, 0, 100 };
-	Player p2 = { "Player 2", 0, 0, 0, 0, 100 };
+	Player p1("Player 1");
+	Player p2("Player 2");
 	int turn = 1;
 	int handSize = 5;
 	Card pick;
@@ -113,12 +109,12 @@ void playPVP() {
 	fillMoveList(deck);
 
 	//Playing Game
-	while (p1.health > 0 && p2.health > 0) {
+	while (p1.getHealth() > 0 && p2.getHealth() > 0) {
 		fillHand(deck, hand);
 		system("cls");
 		if (turn == 1) {
-			while ((p1.man > 0 || p1.stam > 0) && pick.des != "-1") {
-				displayPVP(p1, p2);
+			while ((p1.getMan() > 0 || p1.getStam() > 0) && pick.des != "-1") {
+				p1.displayPVP(p1, p2);
 				pick = cardPick(hand, handSize);
 				system("cls");
 				if (pick.des != "-1") {
@@ -128,9 +124,9 @@ void playPVP() {
 				handSize--;
 			}
 
-			displayPVP(p1, p2);
+			p1.displayPVP(p1, p2);
 
-			levelUp(p1.maxMan, p1.maxStam);
+			p1.levelUp();
 
 			cout << "Hit enter to end turn" << endl;
 			cin.ignore();
@@ -139,16 +135,15 @@ void playPVP() {
 			//resets everything for next turn
 			handSize = 5;
 			pick.des = "0";
-			p1.man = p1.maxMan;
-			p1.stam = p1.maxStam;
+			p1.reset();
 
 			//Lets player 2 go
 			turn = 2;
 
 		}
 		else if (turn == 2) {
-			while ((p2.man > 0 || p2.stam > 0) && pick.des != "-1") {
-				displayPVP(p2, p1);
+			while ((p2.getMan() > 0 || p2.getStam() > 0) && pick.des != "-1") {
+				p2.displayPVP(p2, p1);
 				pick = cardPick(hand, handSize);
 				system("cls");
 				if (pick.des != "-1") {
@@ -158,8 +153,8 @@ void playPVP() {
 				handSize--;
 			}
 
-			displayPVP(p2, p1);
-			levelUp(p2.maxMan, p2.maxStam);
+			p2.displayPVP(p2, p1);
+			p2.levelUp();
 
 			cout << "Hit enter to end turn" << endl;
 			cin.ignore();
@@ -168,8 +163,7 @@ void playPVP() {
 			//resets everything for next turn
 			handSize = 5;
 			pick.des = "0";
-			p2.man = p2.maxMan;
-			p2.stam = p2.maxStam;
+			p2.reset();
 
 			//Lets player 1 go
 			turn = 1;
@@ -183,12 +177,12 @@ void playPVP() {
 
 	//Winner Screen
 	system("cls");
-	if (p1.health > 0) {
-		cout << p1.name << " Wins!";
+	if (p1.getHealth() > 0) {
+		cout << p1.getName() << " Wins!";
 
 	}
-	else if (p2.health > 0) {
-		cout << p2.name << " Wins!";
+	else if (p2.getHealth() > 0) {
+		cout << p2.getName() << " Wins!";
 	}
 	else {
 		cout << "Draw!";
@@ -214,9 +208,9 @@ void fillMoveList(Card deck[]) {
 		getline(normalDeck, deck[movecounter].des);
 		normalDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'N';
-		//cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		//cin.ignore();
-		//cin.get();
+		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
+		cin.ignore();
+		cin.get();
 		normalDeck.get();
 		movecounter++;
 	}
@@ -229,9 +223,9 @@ void fillMoveList(Card deck[]) {
 		getline(wizardDeck, deck[movecounter].des);
 		wizardDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'M';
-		//cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		//cin.ignore();
-		//cin.get();
+		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
+		cin.ignore();
+		cin.get();
 		wizardDeck.get();
 		movecounter++;
 	}
@@ -245,9 +239,9 @@ void fillMoveList(Card deck[]) {
 		getline(warriorDeck, deck[movecounter].des);
 		warriorDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'S';
-		//cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
-		//cin.ignore();
-		//cin.get();
+		cout << deck[movecounter].des << deck[movecounter].dMan << deck[movecounter].dStam << deck[movecounter].dHealth << deck[movecounter].aMan << deck[movecounter].aStam << deck[movecounter].aHealth << deck[movecounter].cost << endl << movecounter;
+		cin.ignore();
+		cin.get();
 		warriorDeck.get();
 		movecounter++;
 	}
@@ -278,15 +272,14 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 	string cardName;
 	cardName.append(pick.des, 0, stringBreak);
 	if (pick.type == 'N') {
-		if (calcCost(pa.man, pa.stam, pick.cost)) {
-			cout << "You used " << cardName << "successfully" << endl;
+		if (pa.calcCost(pick.cost)) {
+			cout << pick.des << endl;
+			cout << "You used " << cardName << "successfully for " << pick.cost << " points" << endl;
+			cout << pick.aMan << pick.aStam << pick.aHealth;
+			cout << pick.dMan << pick.dStam << pick.dHealth;
 
-			pa.man -= pick.aMan;
-			pa.stam -= pick.aStam;
-			pa.health -= pick.aHealth;
-			pd.man -= pick.dMan;
-			pd.stam -= pick.dStam;
-			pd.health -= pick.dHealth;
+			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
+			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
 		}
 		else {
 			cout << "You can't use " << cardName << endl;
@@ -294,30 +287,24 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 		}
 	}
 	else if (pick.type == 'S') {
-		if (calcCostOne(pa.stam, pick.cost)) {
+		if (pa.calcCostOne('S', pick.cost)) {
 			cout << "You used " << cardName << "successfully for " << pick.cost << " stamina points" << endl;
 
-			pa.man -= pick.aMan;
-			pa.stam -= pick.aStam;
-			pa.health -= pick.aHealth;
-			pd.man -= pick.dMan;
-			pd.stam -= pick.dStam;
-			pd.health -= pick.dHealth;
+			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
+			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
+
 		}else {
 			cout << "You can't use " << cardName << endl;
 
 		}
 	}
 	else if (pick.type == 'M') {
-		if (calcCostOne(pa.man, pick.cost)) {
+		if (pa.calcCostOne('M', pick.cost)) {
 			cout << "You used " << cardName << "successfully for " << pick.cost << " mana points" << endl;
 
-			pa.man -= pick.aMan;
-			pa.stam -= pick.aStam;
-			pa.health -= pick.aHealth;
-			pd.man -= pick.dMan;
-			pd.stam -= pick.dStam;
-			pd.health -= pick.dHealth;
+			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
+			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
+
 		}
 		else {
 			cout << "You can't use " << cardName << endl;
@@ -325,61 +312,9 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 		}
 	}
 
-
-
-	if (pa.health > 100) {
-		pa.health = 100;
-	}
-
-	if (pd.man < 0) {
-		pd.man = 0;
-	}
-
-	if (pd.stam < 0) {
-		pd.stam = 0;
-	}
-
 }
 
-//calculates where the game will take points from for the player
-bool calcCost(int& mag, int& stam, int cost) {
-	int spend = cost;
-	if (mag + stam >= cost) {
-		if (mag > stam) {
-			if (mag >= cost) {
-				mag -= spend;
-			}
-			else {
-				spend -= mag;
-				mag = 0;
-				stam -= spend;
-			}
-		}
-		else {
-			if (stam >= cost) {
-				stam -= spend;
-			}
-			else {
-				spend -= stam;
-				stam = 0;
-				mag -= spend;
-			}
-		}
-		return true;
-	}
-	else {
-		return false;
-	}
-}
 
-//caluclates taking ponints from just Stamina or Mana
-bool calcCostOne(int& point, int cost) {
-	if (point >= cost) {
-		point -= cost;
-		return true;
-	}
-	return false;
-}
 
 // randomly fills 5 moves into a list for the player to choose from
 void fillHand(Card deck[], Card hand[]) {
@@ -417,96 +352,3 @@ Card cardPick(Card hand[], int size) {
 	return cardSwitch;
 }
 
-//Lets player put more points into Mana or Stamina
-void levelUp(int& magM, int& stamM) {
-	int choice;
-	if (magM >= 10 && stamM >= 10) {
-		cout << "You can't level up any more" << endl;
-	}
-	else if (magM >= 10 && stamM < 10) {
-		cout << "You can only level up your Stamina" << endl;
-		stamM++;
-	}
-	else if (stamM >= 10 && magM < 10) {
-		cout << "You can only level up your Mana" << endl;
-		magM++;
-	}
-	else {
-		cout << "Would you like to level up 1:Mana or 2:Stamina: ";
-		cin >> choice;
-		while (choice != 1 && choice != 2) {
-			cout << "Invalid Try Again: ";
-			cin >> choice;
-		}
-		if (choice == 1) {
-			magM++;
-		}
-		else {
-			stamM++;
-		}
-	}
-}
-
-// Everything Under Displays Info For Players on screen
-void displayPVP(Player pf, Player pd) {
-	// Fighting Player Display
-	cout << "\033[1m\033[32m" << pf.name << "\033[0m" << endl
-		<< "Mana Points: " << pf.man << "/" << pf.maxMan << endl
-		<< "Stamina Points: " << pf.stam << "/" << pf.maxStam << endl
-		<< "Health: " << pf.health << "/" << 100;
-	cout << "|";
-	//Displays Health bar
-	for (int i = 0; i < 10; i++) {
-		if (i < pf.health / 10) {
-			cout << (char)219u;
-		}
-		else if (i < (pf.health / 10) + 1 && pf.health % 10 > 0) {
-			if (pf.health % 10 >= 7) {
-				cout << (char)178u;
-			}
-			else if (pf.health % 10 >= 4) {
-				cout << (char)177u;
-			}
-			else {
-				cout << (char)176u;
-			}
-		}
-		else {
-			cout << " ";
-		}
-
-	}
-	cout << "|" << endl;
-
-	cout << "---------------------------------------------------" << endl;
-
-	//Deffending PLayer Display
-	cout << "\t\t\t" << "\033[35m" << pd.name << "\033[0m" << endl
-		<< "\t\t\tMana Points: " <<pd.man << "/" << pd.maxMan << endl
-		<< "\t\t\tStamina Points: " << pd.stam << "/" << pd.maxStam << endl
-		<< "\t\t\tHealth: " << pd.health << "/" << 100;
-	cout << "|";
-
-	//Displays Health bar
-	for (int i = 0; i < 10; i++) {
-		if (i < pd.health / 10) {
-			cout << (char)219u;
-		}
-		else if (i < (pd.health / 10) + 1 && pd.health % 10 > 0) {
-			if (pd.health % 10 >= 7) {
-				cout << (char)178u;
-			}
-			else if (pd.health >= 4) {
-				cout << (char)177u;
-			}
-			else {
-				cout << (char)176u;
-			}
-		}
-		else {
-			cout << " ";
-		}
-
-	}
-	cout << "|" << endl << endl;
-}
