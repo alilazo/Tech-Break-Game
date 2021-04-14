@@ -1,9 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include <string>
 using namespace std;
-
-
 
 class Player {
 private:
@@ -15,9 +14,11 @@ private:
     int health;
     void toLow();
 public:
+    bool hurt = false;
     Player(string);
     void buildPlayer();
     void levelUp();
+    void displayHurt(Player, Player);
     void displayPVP(Player, Player);
     void reset();
     void playerCalcA(int, int, int);

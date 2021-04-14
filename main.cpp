@@ -5,6 +5,8 @@
 #include <ctime>     // For the time function
 #include <fstream>   //reading attack files
 #include <vector>    //file Attack array
+#include <stdlib.h>     //for using the function sleep
+#include <windows.h>
 
 #include "Player.h"
 
@@ -28,7 +30,7 @@ void playPVP();
 void fillMoveList(Card deck[]);
 void fillHand(Card deck[], Card hand[]);
 Card cardPick(Card hand[], int size);
-void calcMove(Card pick, Player & pa, Player & pd);
+void calcMove(Card pick, Player& pa, Player& pd);
 void readAttackFile(vector<string>& attacksArray, string fileName);
 
 
@@ -114,7 +116,15 @@ void playPVP() {
 		system("cls");
 		if (turn == 1) {
 			while ((p1.getMan() > 0 || p1.getStam() > 0) && pick.des != "-1") {
+				if (p1.hurt) {
+					p1.displayHurt(p1, p2);
+					Sleep(1000);
+					system("cls");
+					p1.hurt = false;
+					p2.hurt = false;
+				}
 				p1.displayPVP(p1, p2);
+
 				pick = cardPick(hand, handSize);
 				system("cls");
 				if (pick.des != "-1") {
@@ -143,6 +153,13 @@ void playPVP() {
 		}
 		else if (turn == 2) {
 			while ((p2.getMan() > 0 || p2.getStam() > 0) && pick.des != "-1") {
+				if (p2.hurt) {
+					p2.displayHurt(p2, p1);
+					Sleep(1000);
+					system("cls");
+					p2.hurt = false;
+					p1.hurt = false;
+				}
 				p2.displayPVP(p2, p1);
 				pick = cardPick(hand, handSize);
 				system("cls");
@@ -204,11 +221,11 @@ void fillMoveList(Card deck[]) {
 	//Filling deck with normal cards
 	ifstream normalDeck;
 	normalDeck.open("./Attacks/Normal_Attacks.dat");
-	for (int i = 0; i < normal_Attacks.size()/2; i++) {
+	for (int i = 0; i < normal_Attacks.size() / 2; i++) {
 		getline(normalDeck, deck[movecounter].des);
 		normalDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'N';
-		
+
 		normalDeck.get();
 		movecounter++;
 	}
@@ -221,7 +238,7 @@ void fillMoveList(Card deck[]) {
 		getline(wizardDeck, deck[movecounter].des);
 		wizardDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'M';
-		
+
 		wizardDeck.get();
 		movecounter++;
 	}
@@ -235,7 +252,7 @@ void fillMoveList(Card deck[]) {
 		getline(warriorDeck, deck[movecounter].des);
 		warriorDeck >> deck[movecounter].dMan >> deck[movecounter].dStam >> deck[movecounter].dHealth >> deck[movecounter].aMan >> deck[movecounter].aStam >> deck[movecounter].aHealth >> deck[movecounter].cost;
 		deck[movecounter].type = 'S';
-		
+
 		warriorDeck.get();
 		movecounter++;
 	}
@@ -261,17 +278,18 @@ void readAttackFile(vector<string>& attacksArray, string fileName) {
 }
 
 //Calculates Moves and There posibility
-void calcMove(Card pick, Player & pa, Player & pd) {
+void calcMove(Card pick, Player& pa, Player& pd) {
 	int stringBreak = pick.des.find('|');
 	string cardName;
 	cardName.append(pick.des, 0, stringBreak);
 	if (pick.type == 'N') {
 		if (pa.calcCost(pick.cost)) {
-			cout << pick.des << endl;
 			cout << "You used " << cardName << "successfully for " << pick.cost << " points" << endl;
-			cout << pick.aMan << pick.aStam << pick.aHealth;
-			cout << pick.dMan << pick.dStam << pick.dHealth;
 
+			if (pd.getHealth() != pd.getHealth() - pick.dHealth)
+				pa.hurt = true;
+			if (pa.getHealth() != pa.getHealth() - pick.aHealth)
+				pd.hurt = true;
 			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
 			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
 		}
@@ -284,10 +302,15 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 		if (pa.calcCostOne('S', pick.cost)) {
 			cout << "You used " << cardName << "successfully for " << pick.cost << " stamina points" << endl;
 
+			if (pd.getHealth() != pd.getHealth() - pick.dHealth)
+				pa.hurt = true;
+			if (pa.getHealth() != pa.getHealth() - pick.aHealth)
+				pd.hurt = true;
 			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
 			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
 
-		}else {
+		}
+		else {
 			cout << "You can't use " << cardName << endl;
 
 		}
@@ -296,9 +319,12 @@ void calcMove(Card pick, Player & pa, Player & pd) {
 		if (pa.calcCostOne('M', pick.cost)) {
 			cout << "You used " << cardName << "successfully for " << pick.cost << " mana points" << endl;
 
+			if (pd.getHealth() != pd.getHealth() - pick.dHealth)
+				pa.hurt = true;
+			if (pa.getHealth() != pa.getHealth() - pick.aHealth)
+				pd.hurt = true;
 			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
 			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
-
 		}
 		else {
 			cout << "You can't use " << cardName << endl;

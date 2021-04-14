@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 #include "Player.h"
 
 using namespace std;
@@ -78,9 +79,8 @@ void Player::levelUp() {
 	}
 }
 
+void Player::displayHurt(Player pf, Player pd) {
 
-// Everything Under Displays Info For Players on screen
-void Player::displayPVP(Player pf, Player pd) {
 	// Fighting Player Display
 	cout << "\033[1m\033[32m" << pf.name << "\033[0m" << endl
 		<< "Mana Points: " << pf.man << "/" << pf.maxMan << endl
@@ -90,17 +90,17 @@ void Player::displayPVP(Player pf, Player pd) {
 	//Displays Health bar
 	for (int i = 0; i < 10; i++) {
 		if (i < pf.health / 10) {
-			cout << (char)219u;
+			cout << (char)219u; //full bar
 		}
 		else if (i < (pf.health / 10) + 1 && pf.health % 10 > 0) {
 			if (pf.health % 10 >= 7) {
-				cout << (char)178u;
+				cout << (char)178u; //highly dotted
 			}
 			else if (pf.health % 10 >= 4) {
-				cout << (char)177u;
+				cout << (char)177u; //medium dotted
 			}
 			else {
-				cout << (char)176u;
+				cout << (char)176u; //low dotted
 			}
 		}
 		else {
@@ -112,11 +112,78 @@ void Player::displayPVP(Player pf, Player pd) {
 
 	cout << "---------------------------------------------------" << endl;
 
-	//Deffending PLayer Display
+	//Defending PLayer Display
 	cout << "\t\t\t" << "\033[35m" << pd.name << "\033[0m" << endl
 		<< "\t\t\tMana Points: " << pd.man << "/" << pd.maxMan << endl
 		<< "\t\t\tStamina Points: " << pd.stam << "/" << pd.maxStam << endl
 		<< "\t\t\tHealth: " << pd.health << "/" << 100;
+
+	cout << "|\033[31m";
+
+	//Displays Health bar
+	for (int i = 0; i < 10; i++) {
+		if (i < pd.health / 10) {
+			cout << (char)219u;
+		}
+		else if (i < (pd.health / 10) + 1 && pd.health % 10 > 0) {
+			if (pd.health % 10 >= 7) {
+				cout << (char)178u;
+			}
+			else if (pd.health >= 4) {
+				cout << (char)177u;
+			}
+			else {
+				cout << (char)176u;
+			}
+		}
+		else {
+			cout << " ";
+		}
+
+	}
+	cout << "\033[0m|" << endl << endl;
+}
+
+// Everything Under Displays Info For Players on screen
+void Player::displayPVP(Player pf, Player pd) {
+	pf.hurt = false;
+	// Fighting Player Display
+	cout << "\033[1m\033[32m" << pf.name << "\033[0m" << endl
+		<< "Mana Points: " << pf.man << "/" << pf.maxMan << endl
+		<< "Stamina Points: " << pf.stam << "/" << pf.maxStam << endl
+		<< "Health: " << pf.health << "/" << 100;
+	cout << "|";
+	//Displays Health bar
+	for (int i = 0; i < 10; i++) {
+		if (i < pf.health / 10) {
+			cout << (char)219u; //full bar
+		}
+		else if (i < (pf.health / 10) + 1 && pf.health % 10 > 0) {
+			if (pf.health % 10 >= 7) {
+				cout << (char)178u; //highly dotted
+			}
+			else if (pf.health % 10 >= 4) {
+				cout << (char)177u; //medium dotted
+			}
+			else {
+				cout << (char)176u; //low dotted
+			}
+		}
+		else {
+			cout << " ";
+		}
+
+	}
+	cout << "|" << endl;
+
+	cout << "---------------------------------------------------" << endl;
+
+	//Defending PLayer Display
+	cout << "\t\t\t" << "\033[35m" << pd.name << "\033[0m" << endl
+		<< "\t\t\tMana Points: " << pd.man << "/" << pd.maxMan << endl
+		<< "\t\t\tStamina Points: " << pd.stam << "/" << pd.maxStam << endl
+		<< "\t\t\tHealth: " << pd.health << "/" << 100;
+
 	cout << "|";
 
 	//Displays Health bar
@@ -158,7 +225,7 @@ void Player::playerCalcA(int aMan, int aStam, int aHealth) {
 void Player::playerCalcD(int dMan, int dStam, int dHealth) {
 	man -= dMan;
 	stam -= dStam;
-	health -=dHealth;
+	health -= dHealth;
 	toLow();
 }
 
@@ -216,7 +283,7 @@ bool Player::calcCostOne(char type, int cost) {
 		}
 		return false;
 	}
-	else if(type == 'S'){
+	else if (type == 'S') {
 		if (stam >= cost) {
 			stam -= cost;
 			return true;
