@@ -42,7 +42,7 @@ int main() {
 	while (true) {
 		do {
 			system("cls");
-			cout << "Hello & Welcome to 'Name Of the Game'" << endl
+			cout << "Hello & Welcome to Imaginary Battlefield" << endl
 				<< "--Menu--" << endl
 				<< "1. Play Game \n2. Credits \n3. Leader Board \n4. Quit Game \n";
 			cin >> choice;
@@ -56,16 +56,13 @@ int main() {
 				system("cls");
 				choice = 0;
 				cout << "--Menu--" << endl
-					<< "1. PVP \n2. PVE(Not Implemented) \n";
+					<< "1. PVP\n";
 				cin >> choice;
 			} while (choice != 1 && choice != 2);
 			if (choice == 1) {
 				playPVP();
 			}
-			else if (choice == 2) {
-				cout << "Not Implemented Yet";
-			}
-			return 0;
+			break;
 		case 2:
 			cout << "--Credits--\n"
 				<< "Name1\nName2\nName3\nName4\n";
