@@ -8,7 +8,7 @@
 #include <stdlib.h>     //for using the function sleep
 #include <windows.h>
 
-#include "Player.h"
+#include "Player.cpp"
 
 using namespace std;
 
