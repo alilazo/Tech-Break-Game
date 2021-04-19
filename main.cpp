@@ -6,7 +6,9 @@
 #include <fstream>   //reading attack files
 #include <vector>    //file Attack array
 #include <stdlib.h>     //for using the function sleep
-#include <windows.h>
+
+#include <windows.h> //sleep
+#include <stdlib.h>  //sleep
 
 #include "Player.cpp"
 
@@ -32,7 +34,7 @@ void fillHand(Card deck[], Card hand[]);
 Card cardPick(Card hand[], int size);
 void calcMove(Card pick, Player& pa, Player& pd);
 void readAttackFile(vector<string>& attacksArray, string fileName);
-
+void replaceCharacter(string&, char, char);
 
 
 
@@ -344,11 +346,16 @@ void fillHand(Card deck[], Card hand[]) {
 }
 
 //Lets active player pick move form MoveChoice
+//Displays card in game
 Card cardPick(Card hand[], int size) {
 	int pick;
 	Card cardSwitch;
 	for (int i = 0; i < size; i++) {
-		cout << i + 1 << ". " << hand[i].des << endl;
+        cout << setfill((char)205u);
+        cout << (char)201u << setw(3+hand[i].des.length()+1) << (char)187u << endl;
+        replaceCharacter(hand[i].des, '|', (char)186u);
+		cout << (char)186u << i+1 << ". " << hand[i].des << (char)186u << endl;
+        cout << (char)200u << setw(3+hand[i].des.length()+1) << (char)188u << endl;
 	}
 	cout << "\nPick a move or enter -1 if finished: ";
 	cin >> pick;
@@ -369,3 +376,10 @@ Card cardPick(Card hand[], int size) {
 	return cardSwitch;
 }
 
+void replaceCharacter(string& stringToManip, char replaceThis, char withThis){
+    for(int i = 0; i < stringToManip.length(); i++){
+            if(stringToManip[i] == replaceThis){
+                stringToManip[i] = withThis;
+            }
+    }
+}
