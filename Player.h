@@ -12,6 +12,7 @@ private:
     int maxMan;
     int maxStam;
     int health;
+    int points;
     void toLow();
 public:
     bool hurt = false;
@@ -21,7 +22,7 @@ public:
     void displayHurt(Player, Player);
     void displayPVP(Player, Player);
     void reset();
-    void playerCalcA(int, int, int);
+    void playerCalcA(int, int, int, int);
     void playerCalcD(int, int, int);
     bool calcCost(int);
     bool calcCostOne(char, int);
@@ -30,5 +31,6 @@ public:
     int getMan();
     int getStam();
     int getHealth();
+    int getPoints();
 };
 #endif // !PLAYER_H

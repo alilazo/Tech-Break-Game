@@ -10,8 +10,8 @@ Awaken The Dead |5pts Mana| Summon The Undead, Causes 10 Damage
 0 0 10 0 0 0 5
 Regeneration Spell |6pts Mana| Heals PLayer 25 HP
 0 0 0 0 0 -25 6
-Gods Blessing |5pts Mana| An Answered Prayer, Heals Player 50 HP
-0 0 0 0 0 -50 5
+Gods Blessing |8pts Mana| An Answered Prayer, Heals Player 35 HP
+0 0 0 0 0 -35 8
 Body Swap |8pts Mana| Causes 15 Damage & Heals Player 10 HP
 0 0 15 0 0 -10 8
 Magic Missile |1pts Mana| Causes 3 Damage
@@ -22,13 +22,13 @@ Summon Meteor |4pts Mana| Causes 8 Damage
 0 0 8 0 0 0 4
 Mimicry |3pts Mana| Gain 5 Stamina & 5 Mana for 1 round
 0 0 0 -5 -5 0 3
-Conjure Familiar |3pts Mana| Conjures a Familiar That Causes 10 Damage And Heals 5HP
+Conjure Familiar |3pts Mana| Conjures a Familiar That Causes 7 Damage And Heals 5HP
 0 0 7 0 0 -5 3
 Magic Armor |5pts Mana| Heals Player 20 HP
 0 0 0 0 0 -20 5
 Voodoo |2pts Mana| Causes 5 Damage
 0 0 5 0 0 0 2
-The Call Of Gaia |3pts Mana| Causes 5 Damage And Heals 10HP
+The Call Of Gaia |3pts Mana| Causes 3 Damage And Heals 10HP
 0 0 3 0 0 -10 3
 Mana Drain |7pts Mana| Drain Opponets Mana By 5 & Gives You Double
 5 0 0 -10 0 0 7

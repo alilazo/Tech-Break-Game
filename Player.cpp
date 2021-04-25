@@ -13,6 +13,7 @@ Player::Player(string givenName) {
 	maxMan = 0;
 	maxStam = 0;
 	health = 100;
+	points = 0;
 }
 
 string Player::getName() {
@@ -26,6 +27,9 @@ int Player::getStam() {
 }
 int Player::getHealth() {
 	return health;
+}
+int Player::getPoints() {
+	return points;
 }
 
 
@@ -215,10 +219,16 @@ void Player::reset() {
 	man = maxMan;
 }
 
-void Player::playerCalcA(int aMan, int aStam, int aHealth) {
+void Player::playerCalcA(int aMan, int aStam, int aHealth, int dHealth) {
 	man -= aMan;
 	stam -= aStam;
 	health -= aHealth;
+	if (aHealth < 0) {
+		points -= aHealth;
+	}
+	if (dHealth > 0) {
+		points += dHealth;
+	}
 	toLow();
 }
 

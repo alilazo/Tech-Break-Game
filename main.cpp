@@ -10,7 +10,7 @@
 #include <windows.h> //sleep
 #include <stdlib.h>  //sleep
 
-#include "Player.cpp"
+#include "Player.h"
 
 using namespace std;
 
@@ -35,12 +35,17 @@ Card cardPick(Card hand[], int size);
 void calcMove(Card pick, Player& pa, Player& pd);
 void readAttackFile(vector<string>& attacksArray, string fileName);
 void replaceCharacter(string&, char, char);
+void highScore(int newScore);
 
 
 
 int main() {
 	int choice;
+	ifstream inFile;
 	string throwAway;
+	const int size = 5;
+	int scores[size];
+	string names[size];
 	while (true) {
 		do {
 			system("cls");
@@ -66,14 +71,24 @@ int main() {
 			}
 			break;
 		case 2:
-			cout << "--Credits--\n"
-				<< "Name1\nName2\nName3\nName4\n";
+			cout << "--Credits--\n" << endl
+				<< "-Programers-\n Amado Lazo\n Kevin White" << endl << endl
+				<< "-Play Testers- \n Issac Villanueva \n Trever Baese \n Kyler Best \n Katelynn Blando" << endl << endl;
 			cout << endl << "Hit enter to go back to the main menu...\n";
 			getline(cin, throwAway);
 			break;
 		case 3:
-			cout << "--Leader Board--\n"
-				<< "Put 3,5,or10 people here\n";
+			
+			inFile.open("HighScores.txt");
+			
+			cout << endl << "High Scores:" << endl
+				<< "---------------" << endl;
+			for (int i = 0; i < size; i = i++) {
+				inFile >> names[i];
+				inFile >> scores[i];
+				cout << names[i] << "\t" << scores[i] << endl;
+			}
+			inFile.close();
 			cout << endl << "Hit enter to go back to the main menu...\n";
 			getline(cin, throwAway);
 			break;
@@ -115,15 +130,9 @@ void playPVP() {
 		system("cls");
 		if (turn == 1) {
 			while ((p1.getMan() > 0 || p1.getStam() > 0) && pick.des != "-1") {
-				if (p1.hurt) {
-					p1.displayHurt(p1, p2);
-					Sleep(1000);
-					system("cls");
-					p1.hurt = false;
-					p2.hurt = false;
-				}
+				
 				p1.displayPVP(p1, p2);
-
+				cout << p1.getName() << "'s Hand:" << endl;
 				pick = cardPick(hand, handSize);
 				system("cls");
 				if (pick.des != "-1") {
@@ -131,6 +140,14 @@ void playPVP() {
 					cout << endl;
 				}
 				handSize--;
+
+				if (p1.hurt) {
+					p1.displayHurt(p1, p2);
+					Sleep(1000);
+					system("cls");
+					p1.hurt = false;
+					p2.hurt = false;
+				}
 			}
 
 			p1.displayPVP(p1, p2);
@@ -152,14 +169,9 @@ void playPVP() {
 		}
 		else if (turn == 2) {
 			while ((p2.getMan() > 0 || p2.getStam() > 0) && pick.des != "-1") {
-				if (p2.hurt) {
-					p2.displayHurt(p2, p1);
-					Sleep(1000);
-					system("cls");
-					p2.hurt = false;
-					p1.hurt = false;
-				}
+				
 				p2.displayPVP(p2, p1);
+				cout << p2.getName() << "'s Hand:" << endl;
 				pick = cardPick(hand, handSize);
 				system("cls");
 				if (pick.des != "-1") {
@@ -167,6 +179,14 @@ void playPVP() {
 					cout << endl;
 				}
 				handSize--;
+
+				if (p2.hurt) {
+					p2.displayHurt(p2, p1);
+					Sleep(1000);
+					system("cls");
+					p2.hurt = false;
+					p1.hurt = false;
+				}
 			}
 
 			p2.displayPVP(p2, p1);
@@ -195,10 +215,12 @@ void playPVP() {
 	system("cls");
 	if (p1.getHealth() > 0) {
 		cout << p1.getName() << " Wins!";
+		highScore(p1.getPoints());
 
 	}
 	else if (p2.getHealth() > 0) {
 		cout << p2.getName() << " Wins!";
+		highScore(p1.getPoints());
 	}
 	else {
 		cout << "Draw!";
@@ -283,13 +305,12 @@ void calcMove(Card pick, Player& pa, Player& pd) {
 	cardName.append(pick.des, 0, stringBreak);
 	if (pick.type == 'N') {
 		if (pa.calcCost(pick.cost)) {
-			cout << "You used " << cardName << "successfully for " << pick.cost << " points" << endl;
 
 			if (pd.getHealth() != pd.getHealth() - pick.dHealth)
 				pa.hurt = true;
 			if (pa.getHealth() != pa.getHealth() - pick.aHealth)
 				pd.hurt = true;
-			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
+			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth, pick.dHealth);
 			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
 		}
 		else {
@@ -299,13 +320,12 @@ void calcMove(Card pick, Player& pa, Player& pd) {
 	}
 	else if (pick.type == 'S') {
 		if (pa.calcCostOne('S', pick.cost)) {
-			cout << "You used " << cardName << "successfully for " << pick.cost << " stamina points" << endl;
 
 			if (pd.getHealth() != pd.getHealth() - pick.dHealth)
 				pa.hurt = true;
 			if (pa.getHealth() != pa.getHealth() - pick.aHealth)
 				pd.hurt = true;
-			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
+			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth, pick.dHealth);
 			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
 
 		}
@@ -316,13 +336,12 @@ void calcMove(Card pick, Player& pa, Player& pd) {
 	}
 	else if (pick.type == 'M') {
 		if (pa.calcCostOne('M', pick.cost)) {
-			cout << "You used " << cardName << "successfully for " << pick.cost << " mana points" << endl;
 
 			if (pd.getHealth() != pd.getHealth() - pick.dHealth)
 				pa.hurt = true;
 			if (pa.getHealth() != pa.getHealth() - pick.aHealth)
 				pd.hurt = true;
-			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth);
+			pa.playerCalcA(pick.aMan, pick.aStam, pick.aHealth, pick.dHealth);
 			pd.playerCalcD(pick.dMan, pick.dStam, pick.dHealth);
 		}
 		else {
@@ -382,4 +401,54 @@ void replaceCharacter(string& stringToManip, char replaceThis, char withThis){
                 stringToManip[i] = withThis;
             }
     }
+}
+
+void highScore(int newScore) {
+	ifstream inFile;
+	ofstream outFile;
+	inFile.open("HighScores.txt");
+	const int size = 5;
+	int scores[size];
+	string names[size];
+	cout << endl << "High Scores:" << endl
+		<< "---------------" << endl;
+	for (int i = 0; i < size; i = i++) {
+		inFile >> names[i];
+		inFile >> scores[i];
+		cout << names[i] << "\t" << scores[i] << endl;
+	}
+	inFile.close();
+
+	cout << endl << endl << "Your score was: " << newScore << endl << endl;
+	for (int i = 0; i < size; i = i++) {
+		if (newScore > scores[i]) {
+			cout << "You beat " << names[i] << " High Score!!\n What is your username: ";
+			cin >> names[size - 1];
+			scores[size-1] = newScore;
+			for (int j = size - 1; j > 0; j--) {
+				if (scores[j] > scores[j - 1]) {
+					int holdScore = scores[j];
+					string holdName = names[j];
+					scores[j] = scores[j - 1];
+					names[j] = names[j - 1];
+					scores[j - 1] = holdScore;
+					names[j - 1] = holdName;
+				}
+			}
+
+			break;
+		}
+	}
+	outFile.open("HighScores.txt");
+	cout << endl << endl << "High Scores:" << endl
+		<< "---------------" << endl;
+	for (int i = 0; i < size; i = i++) {
+		cout << names[i] << "\t" << scores[i] << endl;
+		outFile << names[i] << endl;
+		outFile << scores[i] << endl;
+	}
+	inFile.close();
+	
+	cin.ignore();
+	cin.get();
 }
